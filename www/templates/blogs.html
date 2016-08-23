@@ -1,0 +1,128 @@
+{% extends '__base__.html' %}
+
+{% block title %}Blogs{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div id="left-block" class="col-md-9">
+
+        {% for blog in blogs %}
+        <h1 class="blog-title">
+            <a href="/blog/{{ blog.id }}">{{ blog.name }}</a>
+        </h1>
+
+        <div class="blog-meta">
+            <i class="fa fa-clock-o" aria-hidden="true"></i> Jul 15, 2016
+            &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag" aria-hidden="true"></i>
+            <span class="blog-tags">{{ blog.tag }}</span>
+        </div>
+        <div class="meta-seperator"></div>
+        <article class="blog-summary blog-content">
+            {{ blog.summary }}
+        </article>
+        <p><a class="readmore-btn" href="/blog/{{ blog.id }}">Read more...</a></p>
+        <div class="blog-seperator"></div>
+
+        {% endfor %}
+    </div>
+    <div id="right-block" class="col-md-3 hidden-sm hidden-xs hidden-print" role="complementary">
+        <!-- here is the place for blogs -->
+        <nav class="right-navbar">
+            <div id="right-container" class="container-fluid">
+                <h3 id="whyuclick">DON'T CLICK ME!</h3>
+                <div id="scareu">
+                    <img id="selfie" class="img-responsive img-circle" src="/static/photos/me.jpg">
+                    <p>&nbsp;&nbsp;Ops! You deserve it!</p>
+                </div>
+                <div class="right-nav-seperator"></div>
+                <h3>TAGS</h3>
+                <ul class="tag-list">
+                    <li class="tag-item">
+                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+                        <a href="/tags/leetcode?page=1"> leetcode (1)</a>
+                    </li>
+                    <li class="tag-item">
+                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+                        <a href="/tags/python?page=1"> python (3)</a>
+                    </li>
+                    <li class="tag-item">
+                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+                        <a href="/tags/VPS?page=1"> VPS (1)</a>
+                    </li>
+
+                    <li class="tag-item">
+                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+                        <a href="/tags/webmaster?page=1"> webmaster (2)</a>
+                    </li>
+                </ul>
+                <div class="right-nav-seperator"></div>
+                <h3>FOLLOW ME</h3>
+                <ul class="tag-list">
+                    <li class="tag-item">
+                        <i class="fa fa-instagram fa-fw" aria-hidden="true"></i>
+                        <a target="_blank" href="https://www.instagram.com/zzhh991" title="照片还都蛮好看的">Instagram</a>
+                    </li>
+                    <li class="tag-item">
+                        <i class="fa fa-weibo fa-fw" aria-hidden="true"></i>
+                        <a target="_blank" href="http://weibo.com/u/2529909465" title="郑翰同学好震撼">WeiBo</a>
+                    </li>
+                    <li class="tag-item">
+                        <i class="fa fa-linkedin fa-fw" aria-hidden="true"></i>
+                        <a target="_blank" href="http://www.linkedin.com/in/hanzheng992" title="快来给我的技能点赞吧">LinkedIn</a>
+                    </li>
+                    <li class="tag-item">
+                        <i class="fa fa-github fa-fw" aria-hidden="true"></i>
+                        <a target="_blank" href="https://github.com/HankerZheng" title="欢迎来关注我的项目">Github</a>
+                    </li>
+                </ul>
+
+
+                <h3>FOLLOW ME</h3>
+
+            </div>
+        </nav>
+
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+<!-- put script here -->
+$(document).ready(function(){
+    $('#whyuclick').click(function(){
+        $('#scareu').toggle(3000);
+    });
+});
+</script>
+
+<script type="text/javascript">
+    navactive = document.getElementById("blogs");
+    navactive.className = "active";
+    $(document).ready(function(){
+        $("#myPagination li a").attr("href", function(i, origValue){
+            return window.location.pathname+origValue;
+        });
+        var converter = new showdown.Converter({'literalMidWordUnderscores': true, 'strikethrough':true})
+        $('.blog-summary').each(function(){
+            var txt = $(this).text();
+            $(this).html(converter.makeHtml(txt));
+        });
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+        $('.blog-tags').each(function(){
+            var info = $(this).text();
+            info = JSON.parse(info);
+            thisHtml = "";
+            for (i=0; i<info.length; i++){
+                thisHtml += '<a href="/tags/'
+                thisHtml += info[i] + '">#'
+                thisHtml += info[i] + '</a>&nbsp;&nbsp;';
+            }
+            $(this).html(thisHtml);
+        });
+    });
+</script>
+{% endblock %}

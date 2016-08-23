@@ -85,7 +85,7 @@ class BooleanField(Field):
 class IntegerField(Field):
 
     def __init__(self, name=None, primary_key=False, default=0):
-        super().__init__(name, 'bigint', primary_key, default)
+        super().__init__(name, 'int', primary_key, default)
 
 class FloatField(Field):
 
@@ -128,7 +128,7 @@ class ModelMetaclass(type):
         attrs['__primary_key__'] = primaryKey # 主键属性名
         attrs['__fields__'] = fields # 除主键外的属性名
         attrs['__select__'] = 'select `%s`, %s from `%s`' % (primaryKey, ', '.join(escaped_fields), tableName)
-        attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values (%s)' % (tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))
+        attrs['__insert__'] = 'insert into `%s` (%s) values (%s)' % (tableName, ', '.join(escaped_fields), create_args_string(len(escaped_fields)))
         attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (tableName, ', '.join(map(lambda f: '`%s`=?' % (mappings.get(f).name or f), fields)), primaryKey)
         attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (tableName, primaryKey)
         return type.__new__(cls, name, bases, attrs)
@@ -209,8 +209,10 @@ class Model(dict, metaclass=ModelMetaclass):
 
     async def save(self):
         args = list(map(self.getValueOrDefault, self.__fields__))
-        args.append(self.getValueOrDefault(self.__primary_key__))
+
+        #args.append(self.getValueOrDefault(self.__primary_key__))
         rows = await execute(self.__insert__, args)
+        print("rows",rows)
         if rows != 1:
             logging.warn('failed to insert record: affected rows: %s' % rows)
 
