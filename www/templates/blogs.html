@@ -13,9 +13,9 @@
         </h1>
 
         <div class="blog-meta">
-            <i class="fa fa-clock-o" aria-hidden="true"></i> Jul 15, 2016
+            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ blog.created_at|datetime }}
             &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag" aria-hidden="true"></i>
-            <span class="blog-tags">{{ blog.tag }}</span>
+            <span class="blog-tags">[{{blog.tag}}]</span>
         </div>
         <div class="meta-seperator"></div>
         <article class="blog-summary blog-content">
@@ -26,6 +26,7 @@
 
         {% endfor %}
     </div>
+
     <div id="right-block" class="col-md-3 hidden-sm hidden-xs hidden-print" role="complementary">
         <!-- here is the place for blogs -->
         <nav class="right-navbar">
@@ -38,64 +39,22 @@
                 <div class="right-nav-seperator"></div>
                 <h3>TAGS</h3>
                 <ul class="tag-list">
-                    <li class="tag-item">
-                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
-                        <a href="/tags/leetcode?page=1"> leetcode (1)</a>
-                    </li>
-                    <li class="tag-item">
-                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
-                        <a href="/tags/python?page=1"> python (3)</a>
-                    </li>
-                    <li class="tag-item">
-                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
-                        <a href="/tags/VPS?page=1"> VPS (1)</a>
-                    </li>
 
+                {% for tag in tags %}
                     <li class="tag-item">
                         <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
-                        <a href="/tags/webmaster?page=1"> webmaster (2)</a>
+                        <a href={{"/tags/"+tag+"?page=1"}}> {{tag}}</a>
                     </li>
+                {% endfor %}
                 </ul>
                 <div class="right-nav-seperator"></div>
-                <h3>FOLLOW ME</h3>
-                <ul class="tag-list">
-                    <li class="tag-item">
-                        <i class="fa fa-instagram fa-fw" aria-hidden="true"></i>
-                        <a target="_blank" href="https://www.instagram.com/zzhh991" title="照片还都蛮好看的">Instagram</a>
-                    </li>
-                    <li class="tag-item">
-                        <i class="fa fa-weibo fa-fw" aria-hidden="true"></i>
-                        <a target="_blank" href="http://weibo.com/u/2529909465" title="郑翰同学好震撼">WeiBo</a>
-                    </li>
-                    <li class="tag-item">
-                        <i class="fa fa-linkedin fa-fw" aria-hidden="true"></i>
-                        <a target="_blank" href="http://www.linkedin.com/in/hanzheng992" title="快来给我的技能点赞吧">LinkedIn</a>
-                    </li>
-                    <li class="tag-item">
-                        <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-                        <a target="_blank" href="https://github.com/HankerZheng" title="欢迎来关注我的项目">Github</a>
-                    </li>
-                </ul>
-
-
-                <h3>FOLLOW ME</h3>
-
             </div>
         </nav>
-
     </div>
-</div>
 
 {% endblock %}
+
 {% block script %}
-<script>
-<!-- put script here -->
-$(document).ready(function(){
-    $('#whyuclick').click(function(){
-        $('#scareu').toggle(3000);
-    });
-});
-</script>
 
 <script type="text/javascript">
     navactive = document.getElementById("blogs");

@@ -20,4 +20,15 @@ class Blog(Model):
     summary = StringField(ddl='varchar(200)')
     content = TextField()
     created_at = FloatField(default=time.time)
-    count = IntegerField(primary_key=False)
+    count = IntegerField()
+
+class Photo(Model):
+	__table__='photos'
+
+	id=IntegerField(primary_key=True)
+	name = StringField(ddl='varchar(50)')
+	alt = StringField(ddl='varchar(50)')
+	title = StringField(ddl='varchar(50)')
+	src = StringField(ddl='varchar(50)')
+	created_at = FloatField(default=time.time)
+		

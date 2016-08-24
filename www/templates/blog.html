@@ -1,0 +1,117 @@
+{% extends '__base__.html' %}
+
+{% block title %}blog.name{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div id="left-block" class="col-md-9">
+        <!-- here is the place for left side navigation -->
+        <!-- including tags and follow me -->
+
+        <div class="blog-post">
+            <h1 class="blog-title"><a href="/blog/make-your-website-searchable-by-google">
+                {{blog.name}}
+            </a></h1>
+            <div class="blog-meta">
+                <i class="fa fa-clock-o" aria-hidden="true"></i> {{ blog.created_at|datetime }}
+                &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag" aria-hidden="true"></i>
+                <span class="blog-tags">[{{blog.tag}}]</span>
+            </div>
+            <div class="meta-seperator"></div>
+            <article class="blog-content">
+                {{ blog.summary }}
+            </article>
+            <div class="blog-seperator"></div>
+        </div>
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function () {
+                this.page.url = "http://www.hankerzheng.com/blog/make-your-website-searchable-by-google"
+                this.page.identifier = "make-your-website-searchable-by-google";
+            };
+            (function () {
+                var d = document, s = d.createElement('script');
+                s.src = '//hankerzhengs.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript>
+
+    </div>
+
+    <div id="right-block" class="col-md-3 hidden-sm hidden-xs hidden-print" role="complementary">
+        <!-- here is the place for blogs -->
+        <nav class="right-navbar">
+            <div id="right-container" class="container-fluid">
+                <h3 id="whyuclick">DON'T CLICK ME!</h3>
+                <div id="scareu">
+                    <img id="selfie" class="img-responsive img-circle" src="/static/photos/me.jpg">
+                    <p>&nbsp;&nbsp;Ops! You deserve it!</p>
+                </div>
+                <div class="right-nav-seperator"></div>
+                <h3>TAGS</h3>
+                <ul class="tag-list">
+
+                    {% for tag in tags %}
+                    <li class="tag-item">
+                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+                        <a href={{"/tags/"+tag+"?page=1"}}> {{tag}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="right-nav-seperator"></div>
+            </div>
+        </nav>
+    </div>
+
+    <!--PC和WAP自适应版-->
+    <div id="SOHUCS" sid="aaa"></div>
+    <script type="text/javascript">
+        (function () {
+            var appid = 'cysyRllTe';
+            var conf = 'prod_ad1405126a45a4669efaffee7f55800d';
+            var width = window.innerWidth || document.documentElement.clientWidth;
+            if (width < 960) {
+                window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+            } else {
+                var loadJs = function (d, a) {
+                    var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                    var b = document.createElement("script");
+                    b.setAttribute("type", "text/javascript");
+                    b.setAttribute("charset", "UTF-8");
+                    b.setAttribute("src", d);
+                    if (typeof a === "function") {
+                        if (window.attachEvent) {
+                            b.onreadystatechange = function () {
+                                var e = b.readyState;
+                                if (e === "loaded" || e === "complete") {
+                                    b.onreadystatechange = null;
+                                    a()
+                                }
+                            }
+                        } else {
+                            b.onload = a
+                        }
+                    }
+                    c.appendChild(b)
+                };
+                loadJs("http://changyan.sohu.com/upload/changyan.js", function () {
+                    window.changyan.api.config({appid: appid, conf: conf})
+                });
+            }
+        })(); </script>
+
+    {% endblock %}
+    {% block script %}
+    <script>
+        <!-- put script here -->
+        $(document).ready(function () {
+            $('#whyuclick').click(function () {
+                $('#scareu').toggle(3000);
+            });
+        });
+    </script>
+    {% endblock %}

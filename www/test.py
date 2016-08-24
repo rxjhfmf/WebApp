@@ -1,16 +1,14 @@
-import asyncio
-from models import Blog
-import orm
-import time
+a="11,2,3"
+b=a.split(',')
+c=[]
+for x in b:
+	x="\""+x+"\""
+	c.append(x)
+print(",".join(c))
 
-async def test(loop):
-    await orm.create_pool(loop=loop, user='root', password='root',db='awesome')
-    
-    blog=Blog(name="1",tag="1",content="1",summary="1",created_at=time.time(),count=1)
+def ch2utf(name):
+    a=name.encode('utf-8',"s")
+    return "".join(str(a).split("\\x"))[2:-1]
 
-    await blog.save()
-    #await orm.close_pool()
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(test(loop))
-#loop.close()
+print(ch2utf("的.jpg"))

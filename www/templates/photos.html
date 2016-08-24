@@ -1,0 +1,62 @@
+{% extends '__base__.html' %}
+
+{% block title %}Photographs - Frank Fu's{% endblock %}
+
+{% block content %}
+
+<ul class="photo-gallery">
+    
+    {% for photo in photos %}
+    <li class="photo-item col-lg-4 col-md-4 col-sm-4 col-xs-6 col-xxs-6" data-bsp-li-index="0">
+    <div class="imgWrapper">
+        <img class="img-responsive" alt={{photo.alt}} myTitle={{photo.title}}  src='/static/photos/{{photo.src}}'>
+    </div></li>
+    {% endfor %}   
+
+    <li class="photo-item col-lg-4 col-md-4 col-sm-4 col-xs-6 col-xxs-6" data-bsp-li-index="0">
+    <div class="imgWrapper">
+        <img class="img-responsive" alt=alt2 myTitle=title2  src='/static/photos/A.jpg'>
+    </div></li>
+       
+</ul>
+
+<!-- put script here -->
+<!-- modal -->
+<div class="modal fade" id="bsPhotoGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="glyphicon glyphicon-remove-circle" data-dismiss="modal"></span>
+                <div class="bsp-img-container">
+                <img class="img-responsive">
+                </div>
+                <div class="bsp-text-container">
+                </div>
+                <a class="bsp-controls next" data-bsp-id="generateId"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="bsp-controls previous" data-bsp-id="generateId"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script type="text/javascript" src="/static/js/jQuery.bsPhotoGallery.js"></script>
+<link rel="stylesheet" href="/static/css/jQuery.bsPhotoGallery.css">
+<script type="text/javascript">
+    navactive = document.getElementById("photos")
+    navactive.className = "active"
+    $("#myPagination li a").attr("href", function(i, origValue){
+        return window.location.pathname+origValue;
+    });
+    $('ul.photo-gallery').bsPhotoGallery();
+    var imgBlock = $(".imgWrapper")
+    imgBlock.css("height", imgBlock.width()*0.6)
+    $(window).on('resize', function() {
+        var imgBlock = $(".imgWrapper")
+        imgBlock.css("height", imgBlock.width()*0.6)
+    });
+</script>
+{% endblock %}

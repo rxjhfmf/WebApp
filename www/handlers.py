@@ -7,27 +7,77 @@ __author__ = 'Frank Fu'
 
 import re, time, json, logging, hashlib, base64, asyncio
 from coroweb import get, post
-from models import  Blog
+from models import  Blog,Photo
+
+def tag2htmlstr(tag):
+    b=tag.split(',')
+    c=[]
+    for x in b:
+        x="\""+x+"\""
+        c.append(x)
+    return ",".join(c)
+
+def ch2utf(name):
+    a=name.encode('utf-8',"s")
+    return "".join(str(a).split("\\x"))[2:-1]
+
+@get('/blog/{id}')
+async def get_blog(id):
+    blog = await Blog.find(id)
+    sid="blog"+str(blog.id)
+    return {
+        '__template__': 'blog.html',
+        'blog': blog,
+        'sid':sid
+    }
+
+@get('/')
+def index():
+    return{
+    '__template__': 'index.html',
+    }
+
+@get('/photos')
+async def get_photos(request):
+
+    str="a.jpg"
+    photos=[
+        Photo(name="name1",alt="alt1",title='title1',src=ch2utf("me.jpg")),
+        Photo(name="name2",alt="alt2",title='title2',src=ch2utf("A_头像.jpg")),
+    ]
+
+    return{
+    '__template__': 'photos.html',
+    'photos':photos
+    }
+
+@get('/blogs')
+async def get_blogs(request):
+    blogs = await Blog.findAll(orderBy="count desc",where="count >1",limit=5)
+    for blog in blogs:
+        blog.tag= tag2htmlstr(blog.tag)
+    tags=["Python","C#"]
+
+    return {
+        '__template__': 'blogs.html',
+        'blogs': blogs,
+        'tags':tags
+    }
 
 @get('/api/blogs/{id}')
 def api_get_blog(*, id):
-    blog = yield from Blog.find(id)
+    blog = Blog.find(id)
     return blog
 
-@get('/')
-async def index(request):
-    
-    blog=Blog(name="1",tag="1",content="1",summary="1",created_at=time.time(),count=1)
-
+@post('/api/blogs')
+async def api_create_blog(request, *, name, summary, content,tag):
+    check_admin(request)
+    if not name or not name.strip():
+        raise APIValueError('name', 'name cannot be empty.')
+    if not summary or not summary.strip():
+        raise APIValueError('summary', 'summary cannot be empty.')
+    if not content or not content.strip():
+        raise APIValueError('content', 'content cannot be empty.')
+    blog = Blog(name=name.strip(), summary=summary.strip(), content=content.strip(),tag=tag.strip())
     await blog.save()
-
-    summary = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    blogs = [
-        Blog(id='1', name='Test Blog',tag="test",content="I'm a teacher", summary=summary, created_at=time.time()-120,count=1),
-        Blog(id='2', name='Something New',tag="test",content="I'm a coder", summary=summary, created_at=time.time()-3600,count=2),
-        Blog(id='3', name='Learn Swift',tag="test",content="I'm a master", summary=summary, created_at=time.time()-7200,count=3)
-    ]
-    return {
-        '__template__': 'blogs.html',
-        'blogs': blogs
-    }
+    return blog
