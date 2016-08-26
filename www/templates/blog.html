@@ -10,9 +10,8 @@
         <!-- including tags and follow me -->
 
         <div class="blog-post">
-            <h1 class="blog-title"><a href="/blog/make-your-website-searchable-by-google">
-                {{blog.name}}
-            </a></h1>
+            <h1 class="blog-title"> <a href="/blog/{{ blog.id }}">{{ blog.name }}</a>
+            </h1>
             <div class="blog-meta">
                 <i class="fa fa-clock-o" aria-hidden="true"></i> {{ blog.created_at|datetime }}
                 &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag" aria-hidden="true"></i>
@@ -24,21 +23,6 @@
             </article>
             <div class="blog-seperator"></div>
         </div>
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = "http://www.hankerzheng.com/blog/make-your-website-searchable-by-google"
-                this.page.identifier = "make-your-website-searchable-by-google";
-            };
-            (function () {
-                var d = document, s = d.createElement('script');
-                s.src = '//hankerzhengs.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
-            powered by Disqus.</a></noscript>
 
     </div>
 
@@ -68,7 +52,7 @@
     </div>
 
     <!--PC和WAP自适应版-->
-    <div id="SOHUCS" sid="aaa"></div>
+    <div id="SOHUCS" sid="FrankBlog_Blog_{{blog.id}}"></div>
     <script type="text/javascript">
         (function () {
             var appid = 'cysyRllTe';

@@ -7,7 +7,7 @@ __author__ = 'Frank Fu'
 
 import re, time, json, logging, hashlib, base64, asyncio
 from coroweb import get, post
-from models import  Blog,Photo
+from models import  Blog,Photo,PageModel
 
 def tag2htmlstr(tag):
     b=tag.split(',')
@@ -53,7 +53,7 @@ async def get_photos(request):
 
 @get('/blogs')
 async def get_blogs(request):
-    blogs = await Blog.findAll(orderBy="count desc",where="count >1",limit=5)
+    blogs = await Blog.findAll(orderBy="created_at desc",limit=5)
     for blog in blogs:
         blog.tag= tag2htmlstr(blog.tag)
     tags=["Python","C#"]
@@ -62,6 +62,15 @@ async def get_blogs(request):
         '__template__': 'blogs.html',
         'blogs': blogs,
         'tags':tags
+    }
+
+@get('/about')
+async def get_about(request):
+    #pages= await PageModel.findAll(where='name=?',args='about')
+    page=PageModel(name="aa",title="bb",content="cc")
+    return {
+        '__template__': 'aboutme.html',
+        'page': page
     }
 
 @get('/api/blogs/{id}')

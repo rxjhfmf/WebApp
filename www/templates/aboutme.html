@@ -1,0 +1,31 @@
+{% extends '__base__.html' %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+
+<h3 class="archive-header">ABOUT ME</h3>
+<div class="archive-post blog-content">
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        navactive = document.getElementById("about");
+        navactive.className = "active";
+        });
+
+
+    $.get('/static/about.txt', function(data, status){
+        var converter = new showdown.Converter({'literalMidWordUnderscores': true, 'strikethrough':true})
+        $(".blog-content").html(converter.makeHtml(data));
+    });
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+    $(document).ready(function(){
+        $(".archive-post").fadeIn(1500);
+    });
+</script>
+{% endblock %}
