@@ -6,7 +6,7 @@ __author__ = 'Frank Fu'
 import asyncio, os, inspect, logging, functools
 from urllib import parse
 from aiohttp import web
-from apis import APIError
+from .errors import APIError
 
 def get(path):
     '''
@@ -138,7 +138,7 @@ class RequestHandler(object):
             return dict(error=e.error, data=e.data, message=e.message)
 
 def add_static(app):
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+    path = os.path.join(os.path.dirname(__path__[0]), 'static')
     app.router.add_static('/static/', path)
     logging.info('add static %s => %s' % ('/static/', path))
 

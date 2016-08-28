@@ -3,11 +3,10 @@
 
 __author__ = 'Frank Fu'
 
-' url handlers '
 
 import re, time, json, logging, hashlib, base64, asyncio
-from coroweb import get, post
-from models import  Blog,Photo,PageModel
+from app.frame import get, post
+from .models import  Blog,Photo,PageModel
 
 def tag2htmlstr(tag):
     b=tag.split(',')
@@ -66,11 +65,8 @@ async def get_blogs(request):
 
 @get('/about')
 async def get_about(request):
-    #pages= await PageModel.findAll(where='name=?',args='about')
-    page=PageModel(name="aa",title="bb",content="cc")
     return {
         '__template__': 'aboutme.html',
-        'page': page
     }
 
 @get('/api/blogs/{id}')
@@ -78,15 +74,3 @@ def api_get_blog(*, id):
     blog = Blog.find(id)
     return blog
 
-@post('/api/blogs')
-async def api_create_blog(request, *, name, summary, content,tag):
-    check_admin(request)
-    if not name or not name.strip():
-        raise APIValueError('name', 'name cannot be empty.')
-    if not summary or not summary.strip():
-        raise APIValueError('summary', 'summary cannot be empty.')
-    if not content or not content.strip():
-        raise APIValueError('content', 'content cannot be empty.')
-    blog = Blog(name=name.strip(), summary=summary.strip(), content=content.strip(),tag=tag.strip())
-    await blog.save()
-    return blog

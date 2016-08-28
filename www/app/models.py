@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'''
-Models for user, blog, comment.
-'''
-
 __author__ = 'Frank Fu'
 
 import time, uuid
 
-from orm import Model, StringField, BooleanField, FloatField, TextField,IntegerField
+from .frame.orm import Model
+from .frame.fields import StringField, BooleanField, FloatField, TextField,IntegerField
 
 class Blog(Model):
     __table__ = 'blogs'
