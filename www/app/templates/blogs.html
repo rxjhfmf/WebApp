@@ -18,8 +18,8 @@
             <span class="blog-tags">[{{blog.tag}}]</span>
         </div>
         <div class="meta-seperator"></div>
-        <article class="blog-summary blog-content">
-            {{ blog.summary }}
+        <article class="blog-content">
+            {{ blog.content|marked|safe }}
         </article>
         <p><a class="readmore-btn" href="/blog/{{ blog.id }}">Read more...</a></p>
         <div class="blog-seperator"></div>
@@ -34,7 +34,7 @@
                 <h3 id="whyuclick">DON'T CLICK ME!</h3>
                 <div id="scareu">
                     <img id="selfie" class="img-responsive img-circle" src="/static/photos/me.jpg">
-                    <p>&nbsp;&nbsp;Ops! You deserve it!</p>
+                    <p>&nbsp;&nbsp;Oh,gosh! You scared me!</p>
                 </div>
                 <div class="right-nav-seperator"></div>
                 <h3>TAGS</h3>
@@ -43,7 +43,7 @@
                 {% for tag in tags %}
                     <li class="tag-item">
                         <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
-                        <a href={{"/tags/"+tag+"?page=1"}}> {{tag}}</a>
+                        <a href={{"/blogs?tag="+tag.name}}> {{tag.name}}</a>
                     </li>
                 {% endfor %}
                 </ul>
@@ -51,6 +51,26 @@
             </div>
         </nav>
     </div>
+
+    <div class="col-xs-12">
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li class="{{'active' if page.index == 1}}"><a href="?tag={{tag}}&page=1&size={{page.limit}}" >1</a></li>
+                    {% if (page.index - 1) > 3 %}
+                        <li class="disabled"><span>...</span></li>
+                    {% endif %}
+                    {% for index in range(2, page.last) if (index - page.index) | abs < 3%}
+                        <li class="{{'active' if page.index == index}}"><a href="?tag={{tag}}&page={{index}}&size={{page.limit}}" >{{ index }}</a></li>
+                    {% endfor %}
+                    {% if (page.last - page.index) > 3 %}
+                        <li class="disabled"><span>...</span></li>
+                    {% endif %}
+                    {% if page.last > 1 %}
+                        <li class="{{'active' if page.index == page.last}}"><a href="?tag={{tag}}&page={{page.last}}&size={{page.limit}}" >{{page.last}}</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
 
 {% endblock %}
 
@@ -64,7 +84,7 @@
             return window.location.pathname+origValue;
         });
         var converter = new showdown.Converter({'literalMidWordUnderscores': true, 'strikethrough':true})
-        $('.blog-summary').each(function(){
+        $('.blog-content').each(function(){
             var txt = $(this).text();
             $(this).html(converter.makeHtml(txt));
         });
@@ -76,7 +96,7 @@
             info = JSON.parse(info);
             thisHtml = "";
             for (i=0; i<info.length; i++){
-                thisHtml += '<a href="/tags/'
+                thisHtml += '<a href="/blogs?tag='
                 thisHtml += info[i] + '">#'
                 thisHtml += info[i] + '</a>&nbsp;&nbsp;';
             }

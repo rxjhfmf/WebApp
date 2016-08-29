@@ -42,7 +42,7 @@ async def create_server(loop):
     app = web.Application(loop=loop, middlewares=[
         logger_factory, response_factory
     ])
-    init_jinja2(app, filters=dict(datetime=datetime_filter))
+    init_jinja2(app, filters=dict(datetime=datetime_filter,marked=marked_filter))
     add_routes(app, 'app.routes')
     add_routes(app, 'app.apis')
     add_static(app)

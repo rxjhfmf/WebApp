@@ -40,3 +40,4 @@ def toDict(d):
 
     
 db_config = toDict(db_config)
+jinja2_config = dict()

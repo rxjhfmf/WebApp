@@ -1,2 +1,2 @@
-for x in range(1,101):
-	print(x)
+from pygments.styles import get_all_styles
+print(list(get_all_styles()))

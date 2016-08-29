@@ -12,3 +12,16 @@ class Page(object):
         self.offset = size * (index - 1)    # 数据库查询用，偏移N个元素
         self.limit = size                   # 一页有多少个元素
 
+# 设置合法的查询字符串参数
+def set_valid_value(num_str, value=1):
+    try:
+        num = int(num_str)
+    except ValueError:
+        return value
+    return num if num > 0 else value
+
+# 检查字符串是否为空
+def check_string(**kw):
+    for field, string in kw.items():
+        if not string or not string.strip():
+            raise APIValueError(field, '%s cannot be empty.' % field)

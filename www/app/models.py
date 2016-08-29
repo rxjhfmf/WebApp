@@ -26,11 +26,9 @@ class Photo(Model):
 	alt = StringField(ddl='varchar(50)')
 	title = StringField(ddl='varchar(50)')
 	src = StringField(ddl='varchar(50)')
-		
-class  PageModel(Model):
-	__table__="pages"
+
+class Tag(Model):
+	__table__="tags"
 
 	id = IntegerField(primary_key=True)
 	name = StringField(ddl='varchar(50)')
-	title = StringField(ddl='varchar(50)')
-	content=TextField()
