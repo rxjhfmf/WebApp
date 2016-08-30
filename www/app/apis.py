@@ -13,9 +13,8 @@ from app.frame.errors import APIValueError, APIResourceNotFoundError
 from app.models import Blog, Tag
 
 # 取（博客、标签）表的条目
-@get('/api/{table}')
-async def api_get_items(table, *, page='1', size='10'):
-    print("~~~~~~~~~~~~~~~")
+@get('/api/manage/{table}')
+async def api_get_items(table, *, page='1', size='2'):
     models = {'blogs': Blog, 'tags': Tag}
     num = await models[table].countRows()
     page = Page(num, set_valid_value(page), set_valid_value(size, 10))
@@ -26,14 +25,14 @@ async def api_get_items(table, *, page='1', size='10'):
 
 
 # 取某篇博客
-@get('/api/{table}/{id}')
+@get('/api/manage/{table}/{id}')
 async def api_get_blog(table,id):
     models = {'blogs': Blog, 'tags': Tag}
     return await models[table].find(id)
 
 
 # 创建新博客
-@post('/api/blogs')
+@post('/api/manage/blogs/create')
 async def api_create_blog(request, *, name, summary, content):
     check_string(name=name, summary=summary, content=content)
     blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image,
@@ -43,7 +42,7 @@ async def api_create_blog(request, *, name, summary, content):
 
 
 # 修改某篇博客
-@post('/api/blogs/{id}')
+@post('/api/manage/blogs/{id}')
 async def api_update_blog(id, request, *, name, summary, content):
     check_string(name=name, summary=summary, content=content)
     blog = await Blog.find(id)
@@ -55,9 +54,9 @@ async def api_update_blog(id, request, *, name, summary, content):
 
 
 # 删除博客
-@post('/api/{table}/{id}/delete')
+@post('/api/manage/{table}/{id}/delete')
 async def api_delete_item(table, id, request):
-    models = {'users': User, 'blogs': Blog, 'comments': Comment, 'oauth': Oauth}
+    models = {'blogs': Blog, 'tags': Tag}
     item = await models[table].find(id)
     if item:
         await item.remove()
@@ -68,3 +67,7 @@ async def api_delete_item(table, id, request):
         for comment in comments:
             await comment.remove()
     return dict(id=id)
+
+@get('/api/test')
+async def api_test():
+    return "a"

@@ -84,33 +84,22 @@ def manage_table(table):
         'table': table,
     }
 
-
-# 创建博客
-@get('/manage/blogs/create')
-def manage_create_blog():
+# 创建博客、标签
+@get('/manage/{table}/create')
+def manage_create(table):
     return {
-        '__template__': 'blog_edit.html'
+        '__template__': '%s_edit.html' % (table)
     }
 
-
-# 修改博客
-@get('/manage/blogs/edit')
-def manage_edit_blog():
+# 修改博客、标签
+@get('/manage/{table}/edit')
+def manage_edit(table):
     return {
-        '__template__': 'blog_edit.html'
+        '__template__': '%s_edit.html' % (table)
     }
 
-# 创建标签
-@get('/{template}/manage/tags/create')
-def manage_create_blog():
-    return {
-        '__template__': 'tag_edit.html'
-    }
-
-
-# 修改标签
-@get('/{template}/manage/tags/edit')
-def manage_edit_blog():
-    return {
-        '__template__': 'tag_edit.html'
+@get('/test')
+def test():
+    return{
+    '__template__': 'test.html',
     }

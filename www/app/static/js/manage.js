@@ -1,3 +1,9 @@
+/**
+ *
+ * @authors moling (365024424@qq.com)
+ * @date    2016-06-26 21:07:03
+ * @version $Id$
+ */
 
 var vm = new Vue({
     el: '#vm',
@@ -6,8 +12,8 @@ var vm = new Vue({
         items: [],
         page: null,
         models: {
-            'blogs': {'name': '标题', 'user_name': '作者'},
-            'tags':{'name':'名称'},
+            'blogs': {'name': '标题', 'summary': '摘要'},
+            'tags': {'name': '名称'},
         },
     },
     computed:{
@@ -22,9 +28,9 @@ var vm = new Vue({
 
         getItemsByPage: function  (page, size) {
             var self = this;
-            getJSON('/api/' + this.table, {
+            getJSON('/api/manage/' + this.table, {
                 page: page || '1',
-                size: size || '5'
+                size: size || '10'
             }, function (err, data) {
                 self.items = data.items;
                 self.page = data.page;
@@ -33,7 +39,7 @@ var vm = new Vue({
         delete_item: function (item) {
             var self = this;
             if (confirm('确认要删除“' + (item.name || item.content) + '”？删除后不可恢复！')) {
-                postJSON('/api/' + this.table + '/' + item.id + '/delete', function (err, r) {
+                postJSON('/api/manage/' + this.table + '/' + item.id + '/delete', function (err, r) {
                     self.items.$remove(item);
                     if (self.items.length === 0 && self.page.index > 1) {
                         self.getItemsByPage(self.page.index - 1, self.page.limit);

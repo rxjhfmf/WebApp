@@ -26,8 +26,8 @@
                     </td>
                     <td v-text="item.created_at.toDateTime('yyyy-MM-dd')"></td>
                     <td >
-                        <a v-show="'{{table}}' === 'blogs'" :href="'blogs/edit?id='+item.id"><span class="glyphicon glyphicon-edit"></span></a>
-                        <a href="#" v-on:click="delete_item(item)"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a :href="'{{table}}/edit?id='+item.id"><span class="fa fa-edit"></span></a>
+                        <a href="#" v-on:click="delete_item(item)"><span class="fa fa-trash"></span></a>
                     </td>
                 </tr>
             </tbody>
