@@ -14,8 +14,11 @@
             </h1>
             <div class="blog-meta">
                 <i class="fa fa-clock-o" aria-hidden="true"></i> {{ blog.created_at|datetime }}
-                &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag" aria-hidden="true"></i>
-                <span class="blog-tags">[{{blog.tag}}]</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {% for t in blog.tag.split(',') %}
+                <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>                
+                <span class="blog-tags"><a href="/blogs?tag={{t.replace('"','')}}">{{t.replace('"','')}}</a></span>
+                {% endfor %}
             </div>
             <div class="meta-seperator"></div>
             <article class="blog-content">
@@ -52,7 +55,7 @@
     </div>
 
     <!--PC和WAP自适应版-->
-    <div id="SOHUCS" sid="FrankBlog_Blog_{{blog.id}}"></div>
+    <div id="SOHUCS" sid="rxjhfmfBlog_Blog_{{blog.id}}"></div>
     <script type="text/javascript">
         (function () {
             var appid = 'cysyRllTe';

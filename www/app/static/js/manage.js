@@ -1,10 +1,3 @@
-/**
- *
- * @authors moling (365024424@qq.com)
- * @date    2016-06-26 21:07:03
- * @version $Id$
- */
-
 var vm = new Vue({
     el: '#vm',
     data: {

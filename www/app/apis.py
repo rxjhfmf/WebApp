@@ -8,13 +8,13 @@ from aiohttp import ClientSession, web
 
 from app.filters import marked_filter as markdown_highlight
 from app.frame import get, post
-from app.frame.helper import Page, set_valid_value
+from app.frame.helper import Page, set_valid_value,check_string
 from app.frame.errors import APIValueError, APIResourceNotFoundError
 from app.models import Blog, Tag
 
 # 取（博客、标签）表的条目
 @get('/api/manage/{table}')
-async def api_get_items(table, *, page='1', size='2'):
+async def api_get_items(table, *, page='1', size='10'):
     models = {'blogs': Blog, 'tags': Tag}
     num = await models[table].countRows()
     page = Page(num, set_valid_value(page), set_valid_value(size, 10))
@@ -32,11 +32,10 @@ async def api_get_blog(table,id):
 
 
 # 创建新博客
-@post('/api/manage/blogs/create')
-async def api_create_blog(request, *, name, summary, content):
-    check_string(name=name, summary=summary, content=content)
-    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image,
-                name=name.strip(), summary=summary.strip(), content=content.strip())
+@post('/api/manage/blogs')
+async def api_create_blog(request, *, name, tag, summary, content):
+    check_string(name=name, tag=tag, summary=summary, content=content)
+    blog = Blog(name=name.strip(), tag=tag.strip(), summary=summary.strip(), content=content.strip())
     await blog.save()
     return blog
 

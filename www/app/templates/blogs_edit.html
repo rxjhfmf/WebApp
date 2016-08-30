@@ -1,0 +1,57 @@
+{% extends '__base__.html' %}
+
+{% block title %}编辑Blog{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top: 20px">
+    <form class="center-block" id="blog" role="from" v-on:submit.prevent="submit">
+        <div class="alert alert-danger" role="alert" hidden="hidden">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <span v-text="message"></span>
+        </div>
+        <div class="form-group form-group">
+            <input class="form-control" id="name" name="name" type="text" placeholder="标题" v-model="blog.name">
+        </div>
+        <div class="form-group form-group"> 
+            <div class="input-group">          
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" 
+                    data-toggle="dropdown">
+                    标签 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">            
+                        <li v-on:click="clickitem(tag.name)" v-for="tag of tags" v-text="tag.name"></li>
+                        <li v-on:click="clickitem('')">自定义</li>
+                    </ul>
+                </div>
+                <input class="form-control" id="tag" name="tag" type="text" placeholder="标签" v-model="blog.tag">
+            </div>
+        </div>
+        <div class="form-group form-group">
+            <input class="form-control" id="summary" name="summary" type="text" placeholder="摘要" v-model="blog.summary">
+        </div>
+        <div class="form-group form-group">
+            <label class="sr-only" for="content">内容</label>
+            <textarea class="form-control" id="content" name="content" placeholder="请输入内容" rows="15" v-model="blog.content"></textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-lg">保存</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+function clickitem(txt)
+{
+document.getElementById("tag").innerHTML = txt;
+}
+</script>
+<script src="/static/js/vue.min.js"></script>
+<script src="/static/js/blog_edit.js"></script>
+{% endblock %}
