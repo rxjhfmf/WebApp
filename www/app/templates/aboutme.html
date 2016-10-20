@@ -16,16 +16,5 @@
         navactive.className = "active";
         });
 
-
-    $.get('/static/about.txt', function(data, status){
-        var converter = new showdown.Converter({'literalMidWordUnderscores': true, 'strikethrough':true})
-        $(".blog-content").html(converter.makeHtml(data));
-    });
-    $('pre code').each(function(i, block) {
-      hljs.highlightBlock(block);
-    });
-    $(document).ready(function(){
-        $(".archive-post").fadeIn(1500);
-    });
 </script>
 {% endblock %}

@@ -1,62 +1,58 @@
-{% extends '__base__.html' %}
-
-{% block title %}blog.name{% endblock %}
-
-{% block content %}
+{% extends '__base__.html' %} {% block title %}{{ blog.name }}{% endblock %} {% block content %}
 
 <div class="row">
-    <div id="left-block" class="col-md-9">
-        <!-- here is the place for left side navigation -->
-        <!-- including tags and follow me -->
+	<div id="left-block" class="col-md-9">
+		<!-- here is the place for left side navigation -->
+		<!-- including tags and follow me -->
 
-        <div class="blog-post">
-            <h1 class="blog-title"> <a href="/blog/{{ blog.id }}">{{ blog.name }}</a>
-            </h1>
-            <div class="blog-meta">
-                <i class="fa fa-clock-o" aria-hidden="true"></i> {{ blog.created_at|datetime }}
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                {% for t in blog.tag.split(',') %}
-                <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>                
-                <span class="blog-tags"><a href="/blogs?tag={{t.replace('"','')}}">{{t.replace('"','')}}</a></span>
-                {% endfor %}
-            </div>
-            <div class="meta-seperator"></div>
-            <article class="blog-content">
-                {{ blog.content }}
-            </article>
-            <div class="blog-seperator"></div>
-        </div>
+		<div class="blog-post">
+			<h1 class="blog-title"> <a href="/blog/{{ blog.id }}">{{ blog.name }}</a>
+			</h1>
+			<div class="blog-meta">
+				<i class="fa fa-clock-o" aria-hidden="true"></i> {{ blog.created_at|datetime }} &nbsp;&nbsp;&nbsp;&nbsp; {% for t in
+				blog.tag.split(',') %}
+				<i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+				<span class="blog-tags">
+                    <a href="/blogs?tag={{t}}">{{t}}
+                </a></span> {% endfor %}
+			</div>
+			<div class="meta-seperator"></div>
+			<article class="blog-content">
+				{{ blog.content|safe }}
+			</article>
+			<div class="blog-seperator"></div>
+		</div>
 
-    </div>
+	</div>
 
-    <div id="right-block" class="col-md-3 hidden-sm hidden-xs hidden-print" role="complementary">
-        <!-- here is the place for blogs -->
-        <nav class="right-navbar">
-            <div id="right-container" class="container-fluid">
-                <h3 id="whyuclick">DON'T CLICK ME!</h3>
-                <div id="scareu">
-                    <img id="selfie" class="img-responsive img-circle" src="/static/photos/me.jpg">
-                    <p>&nbsp;&nbsp;Oh,gosh! You scared me!</p>
-                </div>
-                <div class="right-nav-seperator"></div>
-                <h3>TAGS</h3>
-                <ul class="tag-list">
+	<div id="right-block" class="col-md-3 hidden-sm hidden-xs hidden-print" role="complementary">
+		<!-- here is the place for blogs -->
+		<nav class="right-navbar">
+			<div id="right-container" class="container-fluid">
+				<h3 id="whyuclick">DON'T CLICK ME!</h3>
+				<div id="scareu">
+					<img id="selfie" class="img-responsive img-circle" src="/static/photos/me.jpg">
+					<p>&nbsp;&nbsp;Oh,gosh! You scared me!</p>
+				</div>
+				<div class="right-nav-seperator"></div>
+				<h3>TAGS</h3>
+				<ul class="tag-list">
 
-                    {% for tag in tags %}
-                    <li class="tag-item">
-                        <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
-                       <a href={{"/blogs?tag="+tag.name}}> {{tag.name}}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <div class="right-nav-seperator"></div>
-            </div>
-        </nav>
-    </div>
+					{% for tag in tags %}
+					<li class="tag-item">
+						<i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i>
+						<a href="/blogs?tag={{ tag.name}}"> {{tag.name}}</a>
+					</li>
+					{% endfor %}
+				</ul>
+				<div class="right-nav-seperator"></div>
+			</div>
+		</nav>
+	</div>
 
-    <!--PC和WAP自适应版-->
-    <div id="SOHUCS" sid="rxjhfmfBlog_Blog_{{blog.id}}"></div>
-    <script type="text/javascript">
+	<!--PC和WAP自适应版-->
+	<div id="SOHUCS" sid="rxjhfmfBlog_Blog_{{blog.id}}"></div>
+	<script type="text/javascript">
         (function () {
             var appid = 'cysyRllTe';
             var conf = 'prod_ad1405126a45a4669efaffee7f55800d';
@@ -89,11 +85,9 @@
                     window.changyan.api.config({appid: appid, conf: conf})
                 });
             }
-        })(); </script>
-
-    {% endblock %}
-    {% block script %}
-    <script>
+        })(); 
+        </script> {% endblock %} {% block script %}
+	<script>
         <!-- put script here -->
         $(document).ready(function () {
             $('#whyuclick').click(function () {
@@ -102,28 +96,8 @@
         });
     </script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
     navactive = document.getElementById("blogs")
     navactive.className = "active"
-    $(function(){
-        var txt = $(".blog-content").text();
-        var converter = new showdown.Converter({'literalMidWordUnderscores': true, 'strikethrough':true})
-        $(".blog-content").html(converter.makeHtml(txt));
-        $('pre code').each(function(i, block) {
-          hljs.highlightBlock(block);
-        });
-        $('.blog-tags').each(function(){
-            var info = $(this).text();
-            info = JSON.parse(info);
-            thisHtml = "";
-            for (i=0; i<info.length; i++){
-                thisHtml += '<a href="/blogs?tag='
-                thisHtml += info[i] + '">#'
-                thisHtml += info[i] + '</a>&nbsp;&nbsp;';
-            }
-            $(this).html(thisHtml);
-        });
-    });
-</script>
-
-    {% endblock %}
+    
+</script> {% endblock %}
