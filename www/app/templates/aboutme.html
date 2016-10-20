@@ -1,14 +1,14 @@
-{% extends '__base__.html' %}
-
-{% block title %}About Me{% endblock %}
-
-{% block content %}
+{% extends '__base__.html' %} {% block title %}About Me{% endblock %} {% block content %}
 
 <h3 class="archive-header">ABOUT ME</h3>
-<div class="archive-post blog-content">
+<div class="blog-post blog-content">
 </div>
-{% endblock %}
-{% block script %}
+<article class="blog-post blog-content">
+	{{ txt|safe }}
+</article>
+
+
+{% endblock %} {% block script %}
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -16,5 +16,4 @@
         navactive.className = "active";
         });
 
-</script>
-{% endblock %}
+</script> {% endblock %}

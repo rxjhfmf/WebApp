@@ -10,6 +10,7 @@ from .models import  *
 from urllib import parse
 from app.frame.helper import Page, set_valid_value
 from markdown import markdown
+import os
 
 @get('/blog/{id}')
 async def get_blog(id):
@@ -66,8 +67,12 @@ async def get_blogs(request, *, tag='Python', page='1', size='5'):
 
 @get('/about')
 async def get_about(request):
+    path=os.path.abspath('.')
+    fo = open('app/static/about.txt','rb')
+    txt=fo.read()
     return {
         '__template__': 'aboutme.html',
+        'txt':markdown(txt.decode("utf-8"),['codehilite'])
     }
 
 # 管理页面
