@@ -1,5 +1,5 @@
 > 活着，比什么都重要！  
-> To live!
+> To be live!
 
 - Python: 
 <br>`The most powerful magic art in the world!`

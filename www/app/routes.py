@@ -68,7 +68,7 @@ async def get_blogs(request, *, tag='Python', page='1', size='5'):
 @get('/about')
 async def get_about(request):
     path=os.path.abspath('.')
-    fo = open('app/static/about.txt','rb')
+    fo = open('app/static/about.md','rb')
     txt=fo.read()
     return {
         '__template__': 'aboutme.html',
