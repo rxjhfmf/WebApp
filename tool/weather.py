@@ -58,4 +58,4 @@ class Weather(object):
 
 if __name__ == '__main__':
     weather = Weather()
-    weather.get_weather('宁波')
+    weather.get_weather('杭州')
