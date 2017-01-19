@@ -37,7 +37,9 @@ async def api_create_blog(request, *, name, tag, summary, content):
     check_string(name=name, tag=tag, summary=summary, content=content)
     blog = Blog(name=name.strip(), tag=tag.strip(), summary=summary.strip(), content=content.strip())
     await blog.save()
-    return blog
+    blogs=await Blog.findAll("name='%s'" % blog.name);
+    
+    return blogs[0]
 
 
 # 修改某篇博客

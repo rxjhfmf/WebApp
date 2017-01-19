@@ -108,7 +108,7 @@ class ModelMetaclass(type):
         attrs['__fields__'] = escaped_fields + [primary_key]  # 将所有属性名都添加进 __fields__ 属性
         # -----------------------默认SQL语句--------------------------
         attrs['__select__'] = 'select * from `%s`' % (table)
-        attrs['__insert__'] = 'insert into `%s` (%s,%s) values (%s)' % (table, ', '.join('`%s`' % f for f in escaped_fields),primary_key, ', '.join('?' * (len(escaped_fields)+1)))
+        attrs['__insert__'] = 'insert into `%s` (%s) values (%s)' % (table, ', '.join('`%s`' % f for f in mappings), ', '.join('?' * (len(mappings))))
         attrs['__update__'] = 'update `%s` set %s where `%s` = ?' % (table, ', '.join('`%s` = ?' % f for f in escaped_fields), primary_key)
         attrs['__delete__'] = 'delete from `%s` where `%s`= ?' % (table, primary_key)
 
